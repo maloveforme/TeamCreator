@@ -1,0 +1,3 @@
+﻿  user.cpp
+G:\github\TeamCreator\Team_Creator\Team_Creator\user.cpp(96,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Team_Creator.vcxproj -> G:\github\TeamCreator\Team_Creator\x64\Debug\Team_Creator.exe

@@ -1,0 +1,6 @@
+﻿  DB.cpp
+G:\github\TeamCreator\ver1.1\Team_Creator\DB.cpp(131,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  main.cpp
+  board.cpp
+  코드를 생성하고 있습니다...
+  Team_Creator.vcxproj -> G:\github\TeamCreator\ver1.1\x64\Debug\Team_Creator.exe
