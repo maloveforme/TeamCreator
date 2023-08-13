@@ -19,6 +19,7 @@ public:
     static DB* GetInstance();
     bool ExecuteQuery(const std::string& query);
     MYSQL_RES* FetchRows(const std::string& query);
+    std::string GetError() const;
 };
 
 class UserRepository
@@ -28,6 +29,9 @@ class UserRepository
 public:
     UserRepository();
     void PrintUser();
+    void AddUser(std::string name, std::string tier, std::string line, int score);
 };
+
+
 
 #endif

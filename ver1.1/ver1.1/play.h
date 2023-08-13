@@ -1,9 +1,10 @@
 #ifndef PLAY_H
 #define PLAY_H
 
-#include "user.h"
 #include "DB.h"
 #include "board.h"
+#include "config.h"
+#include <algorithm>
 
 class Play
 {

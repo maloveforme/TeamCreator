@@ -1,1 +1,7 @@
-﻿  ver1.1.vcxproj -> C:\Users\SeokWon\Desktop\TeamCreator_Dev\ver1.1\x64\Debug\ver1.1.exe
+﻿  DB.cpp
+G:\github\TeamCreator_Dev\ver1.1\ver1.1\DB.cpp(89,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  main.cpp
+G:\github\TeamCreator_Dev\ver1.1\ver1.1\main.cpp(6,9): warning C4101: 'choice' :참조되지 않은 지역 변수입니다.
+  play.cpp
+  코드를 생성하고 있습니다...
+  ver1.1.vcxproj -> G:\github\TeamCreator_Dev\ver1.1\x64\Debug\ver1.1.exe

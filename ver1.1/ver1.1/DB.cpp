@@ -57,19 +57,31 @@ MYSQL_RES* DB::FetchRows(const std::string& query)
 	return mysql_store_result(&_mysql);
 }
 
+std::string DB::GetError() const
+{
+	return std::string(mysql_error(const_cast<MYSQL*>(&_mysql)));
+}
+
 UserRepository::UserRepository()
 {
+	// 인스턴스 생성
+
 	_db = DB::GetInstance();
 }
 
 void UserRepository::PrintUser()
 {
+	// 데이터베이스 내의 모든 유저 정보를 출력하는 함수
+
 	const std::string query
 		= "SELECT name, line, tier, score FROM users ORDER BY name;";
+
+	// 결과를 result 변수에 저장
 	MYSQL_RES* result = _db->FetchRows(query);
 
 	if (result)
 	{
+		// row 변수에 유저 정보를 담아서 하나씩 출력
 		MYSQL_ROW row;
 
 		while ((row = mysql_fetch_row(result)))
@@ -79,6 +91,40 @@ void UserRepository::PrintUser()
 			std::cout << "\n";
 		}
 
+		// 구조체에 할당된 메모리 해제
 		mysql_free_result(result);
 	}
+}
+
+void UserRepository::AddUser(std::string name, std::string tier, std::string line, int score)
+{
+	// 유저를 추가하는 함수
+
+	// 동일한 유저가 있는지 검사하는 쿼리
+	std::string query
+		= "SELECT * FROM users WHERE name = '" + name + "' AND line = '" + line + "';";
+	MYSQL_RES* result = _db->FetchRows(query);
+
+	if (!result)
+		std::cerr << "데이터베이스에서 데이터를 가져오는 데 실패: " << _db->GetError() << "\n";
+
+	if (mysql_num_rows(result) > 0)
+	{
+		std::cout << "이미 동일한 이름과 라인을 가진 사용자가 존재합니다.\n";
+		return;
+	}
+
+	mysql_free_result(result); // 이전 쿼리의 결과를 해제
+
+	// 유저를 추가하는 쿼리
+	query = "INSERT INTO users (name, tier, line, score) VALUES ('"
+		+ name + "', '" + tier + "', '" + line + "', " + std::to_string(score) + ");";
+
+	if (!_db->ExecuteQuery(query))
+	{
+		std::cerr << "데이터 삽입 실패: " << _db->GetError() << "\n";
+		return;
+	}
+
+	std::cout << "데이터 추가 완료\n";
 }

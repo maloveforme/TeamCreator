@@ -24,7 +24,7 @@
     <ClInclude Include="play.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="user.h">
+    <ClInclude Include="config.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -39,9 +39,6 @@
       <Filter>헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="play.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -140,14 +140,13 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="DB.h" />
     <ClInclude Include="play.h" />
-    <ClInclude Include="user.h" />
+    <ClInclude Include="config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
     <ClCompile Include="DB.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="play.cpp" />
-    <ClCompile Include="user.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
