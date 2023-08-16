@@ -96,7 +96,7 @@ void UserRepository::PrintUser()
 	}
 }
 
-void UserRepository::AddUser(std::string name, std::string tier, std::string line, int score)
+void UserRepository::AddUser(std::string& name, std::string& tier, std::string& line, int score)
 {
 	// 유저를 추가하는 함수
 
@@ -127,4 +127,41 @@ void UserRepository::AddUser(std::string name, std::string tier, std::string lin
 	}
 
 	std::cout << "데이터 추가 완료\n";
+}
+
+void UserRepository::UpdateUsersScore()
+{
+	const std::string query 
+		= "SELECT name, tier, line FROM users;";
+	MYSQL_RES* result = _db->FetchRows(query);
+	MYSQL_ROW row;
+
+	if (!result) 
+	{
+		std::cerr << "데이터를 가져오는 데 실패했습니다: " << _db->GetError() << "\n";
+		return;
+	}
+
+	while ((row = mysql_fetch_row(result))) 
+	{
+		std::string name = row[0];
+		std::string tier = row[1];
+		std::string line = row[2];
+
+		int newScore = 0;
+
+		if (Config::tier_score.find(tier) != Config::tier_score.end()) 
+			newScore = Config::tier_score[tier];
+		
+		std::string updateQuery = "UPDATE users SET score=" + std::to_string(newScore) + " WHERE name='" + name + "' AND line='" + line + "';";
+		
+		if (!_db->ExecuteQuery(updateQuery))
+			std::cerr << "점수 업데이트에 실패했습니다: " << _db->GetError() << "\n";
+
+		else
+			std::cout << "점수 업데이트에 성공하였습니다\n";
+		
+	}
+
+	mysql_free_result(result);
 }

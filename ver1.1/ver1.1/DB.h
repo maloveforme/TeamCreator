@@ -4,6 +4,7 @@
 #include <mysql.h>
 #include <iostream>
 #include <string>
+#include "config.h"
 
 class DB
 {
@@ -29,7 +30,8 @@ class UserRepository
 public:
     UserRepository();
     void PrintUser();
-    void AddUser(std::string name, std::string tier, std::string line, int score);
+    void AddUser(std::string& name, std::string& tier, std::string& line, int score);
+    void UpdateUsersScore();
 };
 
 
