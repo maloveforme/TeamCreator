@@ -2,8 +2,10 @@
 
 int main()
 {
+    std::atexit(DB::CloseMySQL); // 메모리 할당 해제
     Play play;
-    int choice;
 
     play.Start();
+
+    return 0;
 }

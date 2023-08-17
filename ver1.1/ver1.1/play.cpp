@@ -83,6 +83,7 @@ void Play::Run()
             default:
                 std::cout << "잘못된 입력입니다. 다시 시도해 주세요.\n";
             }
+
         } while (choice != 4);
     }
 }

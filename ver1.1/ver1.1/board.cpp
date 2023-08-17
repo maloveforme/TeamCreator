@@ -2,9 +2,9 @@
 
 Board* Board::_instance = nullptr;
 
-Board::Board()
+Board::Board() : _total_score{ 0, 0 }, _board{}
 {
-
+	
 }
 
 Board::~Board()
@@ -39,6 +39,15 @@ void Board::SetUser()
 {
 	std::string name, line;
 	char team;
+
+	std::cout << "유저를 보드에 넣습니다\n";
+	std::cout << "이름: ";
+	std::getline(std::cin, name);
+
+	std::cout << "라인: ";
+	std::getline(std::cin, line);
+
+	
 
 
 }

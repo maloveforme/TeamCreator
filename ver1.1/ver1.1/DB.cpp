@@ -21,7 +21,7 @@ DB::DB()
 
 DB::~DB()
 {
-	mysql_close(&_mysql); // 메모리 해제
+	
 }
 
 DB* DB::GetInstance()
@@ -60,6 +60,13 @@ MYSQL_RES* DB::FetchRows(const std::string& query)
 std::string DB::GetError() const
 {
 	return std::string(mysql_error(const_cast<MYSQL*>(&_mysql)));
+}
+
+void DB::CloseMySQL()
+{
+	// mysql 메모리 할당 해제
+	if (_instance) 
+		mysql_close(&_instance->_mysql);
 }
 
 UserRepository::UserRepository()
@@ -131,6 +138,8 @@ void UserRepository::AddUser(std::string& name, std::string& tier, std::string& 
 
 void UserRepository::UpdateUsersScore()
 {
+	// 유저의 score를 새로운 테이블로 처리하는 함수
+
 	const std::string query 
 		= "SELECT name, tier, line FROM users;";
 	MYSQL_RES* result = _db->FetchRows(query);
@@ -150,9 +159,11 @@ void UserRepository::UpdateUsersScore()
 
 		int newScore = 0;
 
+		// 새로운 점수를 찾아서 newScore에 저장함
 		if (Config::tier_score.find(tier) != Config::tier_score.end()) 
 			newScore = Config::tier_score[tier];
 		
+		// 업데이트 쿼리
 		std::string updateQuery = "UPDATE users SET score=" + std::to_string(newScore) + " WHERE name='" + name + "' AND line='" + line + "';";
 		
 		if (!_db->ExecuteQuery(updateQuery))
@@ -164,4 +175,34 @@ void UserRepository::UpdateUsersScore()
 	}
 
 	mysql_free_result(result);
+}
+
+bool UserRepository::FindUser(std::string& name, std::string& line)
+{
+	// 동일한 name과 line의 데이터가 있는지 확인하는 쿼리
+	std::string query
+		= "SELECT * FROM users WHERE name = '" + name + "' AND line = '" + line + "';";
+	MYSQL_RES* result = _db->FetchRows(query);
+
+	if (result)
+	{
+		if (mysql_num_rows(result) <= 0)
+		{
+			std::cerr << "해당 유저가 존재하지 않습니다\n";
+			mysql_free_result(result);
+			return false;
+		}
+
+		else
+		{
+			mysql_free_result(result);
+			return true;
+		}
+	}
+
+	else
+	{
+		std::cerr << "오류: " << _db->GetError() << "\n";
+		return false;
+	}
 }
